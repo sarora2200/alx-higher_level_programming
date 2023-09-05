@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 for letter in range(97, 123):
     if letter == 113:
-    continue
+        continue
     if letter == 120:
-    continue
+        continue
     print("{:c}".format(letter), end="")
