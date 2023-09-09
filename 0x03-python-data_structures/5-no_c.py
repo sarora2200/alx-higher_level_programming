@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-#5-main_c.py
+#!/usr/bin/python3
 
 def no_c(my_string):
 
