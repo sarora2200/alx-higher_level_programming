@@ -5,4 +5,3 @@ def best_score(a_dictionary):
         best_student = max(a_dictionary, key=a_dictionary.get)
         return best_student
     return None
-
