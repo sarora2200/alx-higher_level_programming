@@ -1,67 +1,117 @@
-#include <stdio.h>
 #include <Python.h>
 
 /**
-* print_python_bytes - Prints bytes information
-* @p: Python Object
-* Return: no return
+* print_python_list - Print information about a Python list object
+* @p: Pointer to a Python object representing a list
+*
+* Description:
+*   The print_python_list function provides detailed information about a Python
+*   list object. It displays the size of the list, the amount of memory allocated
+*   for it, and the types of its elements. If any of the elements in the list are
+*   bytes objects, additional information about those objects is also displayed.
+*
+* Parameters:
+*   @p: A pointer to a Python object representing a list.
+*
+* Return: None
 */
-void print_python_bytes(PyObject *p)
-{
-char *string;
-long int size, i, limit;
+void print_python_list(PyObject *p) {
+Py_ssize_t size, i;
+PyObject *element;
 
-printf("[.] bytes object info\n");
-if (!PyBytes_Check(p))
-{
-printf("  [ERROR] Invalid Bytes Object\n");
-return;
+size = PyList_Size(p);
+
+printf("[*] Python list info\n[*] Size of the Python List = %ld\n"
+"[*] Allocated = %ld\n", size, ((PyListObject *)p)->allocated);
+
+for (i = 0; i < size; i++) {
+element = PyList_GetItem(p, i);
+
+printf("Element %ld: %s\n", i, Py_TYPE(element)->tp_name);
+
+if (PyBytes_Check(element))
+printf("[.] bytes object info\n  size: %ld\n  trying string: %s\n",
+PyBytes_Size(element), PyBytes_AsString(element));
 }
-
-size = ((PyVarObject *)(p))->ob_size;
-string = ((PyBytesObject *)p)->ob_sval;
-
-printf("  size: %ld\n", size);
-printf("  trying string: %s\n", string);
-
-if (size >= 10)
-limit = 10;
-else
-limit = size + 1;
-
-printf("  first %ld bytes:", limit);
-
-for (i = 0; i < limit; i++)
-if (string[i] >= 0)
-printf(" %02x", string[i]);
-else
-printf(" %02x", 256 + string[i]);
-
-printf("\n");
 }
 
 /**
-* print_python_list - Prints list information
-* @p: Python Object
-* Return: no return
+* print_python_bytes - Print information about a Python bytes object
+* @p: Pointer to a Python object representing bytes
+*
+* Description:
+*   The print_python_bytes function provides detailed information about a Python
+*   bytes object. It displays the size of the bytes object, attempts to convert
+*   it to a string, and prints the first 10 bytes in hexadecimal format. If the
+*   object is not a valid PyBytesObject, an error message is printed.
+*
+* Parameters:
+*   @p: A pointer to a Python object representing bytes.
+*
+* Return: None
 */
-void print_python_list(PyObject *p)
+void print_python_bytes(PyObject *p) {
+Py_ssize_t size, i;
+
+printf("[.] bytes object info\n");
+
+if (PyBytes_Check(p)) {
+size = PyBytes_Size(p);
+printf("  size: %ld\n  trying string: %s\n", size,
+PyBytes_AsString(p));
+
+if (size > 10)
+size = 10;
+else if (size < 0)
+return;
+
+printf("  first %ld bytes: ", size);
+
+for (i = 0; i < size; i++) {
+printf("%02x", (unsigned char)PyBytes_AsString(p)[i]);
+
+if (i < size - 1)
+printf(" ");
+}
+} else {
+printf("  [ERROR] Invalid Bytes Object\n");
+}
+}
+
+/**
+ * main - Entry point of the program
+ *
+ * Description:
+ *   The main function serves as the entry point of the program. It initializes
+ *   the Python interpreter, creates Python objects (a list and a bytes object),
+ *   calls the provided functions to display information about these objects,
+ *   and finally properly cleans up the allocated memory.
+ *
+ * Return: Always 0 (indicating successful execution)
+ */
+
+int main(void)
 {
-long int size, i;
-PyListObject *list;
-PyObject *obj;
+PyObject *list, *bytes;
 
-size = ((PyVarObject *)(p))->ob_size;
-list = (PyListObject *)p;
+Py_Initialize();
 
-printf("[*] Python list info\n");
-printf("[*] Size of the Python List = %ld\n", size);
-printf("[*] Allocated = %ld\n", list->allocated);
+list = PyList_New(0);
 
-for (i = 0; i < size; i++)
-{
-obj = ((PyListObject *)p)->ob_item[i];
-printf("Element %ld: %s\n", i, ((obj)->ob_type)->tp_name);
-if (PyBytes_Check(obj))
-print_python_bytes(obj);
+PyList_Append(list, PyLong_FromLong(42));
+PyList_Append(list, PyUnicode_DecodeUTF8("Hello", 5, NULL));
+PyList_Append(list, PyBytes_FromString("World"));
+
+print_python_list(list);
+
+bytes = PyBytes_FromString("PythonBytes");
+
+print_python_bytes(bytes);
+
+Py_DECREF(list);
+Py_DECREF(bytes);
+
+Py_Finalize();
+
+return (0);
 }
