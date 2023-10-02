@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Module 3-rectangle
+"""Module 6-rectangle
 Defines a Rectangle class.
 """
 
@@ -22,6 +22,7 @@ class Rectangle:
         """
         self.width = width
         self.height = height
+        Rectangle.number_of_instances += 1
 
     def __str__(self):
         """Returns an informal and nicely printable string representation
@@ -44,6 +45,7 @@ class Rectangle:
     def __del__(self):
         """Deletes a Rectangle instance."""
         print("Bye rectangle...")
+        Rectangle.number_of_instances -= 1
 
     @property
     def width(self):
