@@ -1,3 +1,9 @@
+#!/usr/bin/python3
+"""Module 3-rectangle
+Defines a Rectangle class.
+"""
+
+
 class Rectangle:
     """Rectangle object with getter and setters"""
 
