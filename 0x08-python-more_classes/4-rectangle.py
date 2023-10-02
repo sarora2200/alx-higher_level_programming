@@ -28,7 +28,7 @@ class Rectangle:
             rec_str += '\n'
         return rec_str[:-1]
 
-     def __repr__(self):
+    def __repr__(self):
         """Return a string representation of a Rectangle instance
         that is able to recreate a new instance by using eval()
         """
