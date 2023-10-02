@@ -5,7 +5,7 @@ Defines a Rectangle class.
 
 
 class Rectangle:
-    """Rectangle object with getter and setters"""
+    """Rectangle class defined by width and height."""
 
     def __init__(self, width=0, height=0):
         """Initializes a Rectangle instance.
@@ -13,8 +13,8 @@ class Rectangle:
             width: width of the rectangle
             height: height of the rectangle
         """
-        self.height = height
         self.width = width
+        self.height = height
 
     def __str__(self):
         """Returns an informal and nicely printable string representation
@@ -63,11 +63,17 @@ class Rectangle:
         self.__height = value
 
     def area(self):
-        """Calculate the area of the rectangle."""
+        """Calculates the area of a Rectangle instance
+        Returns:
+            Area of the the rectangle, given by height * width
+        """
         return self.__width * self.__height
 
     def perimeter(self):
-        """Calculate the perimeter of the rectangle."""
-        if self.__width == 0 or self.__height == 0:
+        """Calculates the perimeter of a Rectangle instance
+        Returns:
+            Perimeter of the rectangle, given by 2 * (height + width)
+        """
+        if self.__height == 0 or self.__width == 0:
             return 0
-        return (self.__width + self.__height) * 2 
+        return 2 * (self.__width + self.__height)
