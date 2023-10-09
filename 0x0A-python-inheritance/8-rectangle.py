@@ -11,7 +11,7 @@ class Rectangle(BaseGeometry):
     """Represents a rectangle
     Private instance attributes:
         - width
-        - height 
+        - height
     inherts from BaseGeometry
     """
 
@@ -22,7 +22,7 @@ class Rectangle(BaseGeometry):
             - width: rectangle width
             - height: rectangle height
         """
-           
+
         self.integer_validator("width", width)
         self.integer_validator("height", height)
         self.__width = width
