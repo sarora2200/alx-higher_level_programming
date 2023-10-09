@@ -4,6 +4,7 @@
     You are not allowed to import any module
 """
 
+
 class MyInt(int):
     """This class invert the operators"""
     def __eq__(self, other):
