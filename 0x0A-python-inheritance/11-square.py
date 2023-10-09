@@ -27,6 +27,7 @@ class Square(Rectangle):
         self.__size = size
 
     def __str__(self):
+        """This Function Return A Description about the square"""
         return str("[Square] {}/{}".format(self.__size, self.__size))
 
     def area(self):
@@ -34,4 +35,4 @@ class Square(Rectangle):
         Ovewrites the area() method from Rectangle
         """
 
-        return self.__size ** 2
+        return self.__size * self.__size
