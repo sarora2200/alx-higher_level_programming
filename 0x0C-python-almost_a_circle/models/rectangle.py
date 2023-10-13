@@ -95,7 +95,7 @@ class Rectangle(Base):
                 self.x, self.y, self.width, self.height)
         return r + c
 
-    def update(self, *args):
+    def update(self, *args, **kwargs):
         """update method"""
         if args or len(args) != 0:
             for i in range(len(args)):
