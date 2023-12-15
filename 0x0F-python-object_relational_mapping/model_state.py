@@ -9,7 +9,7 @@ mymeta = MetaData()
 Base = declarative_base(MetaData=mymeta)
 
 
-class state(Base):
+class State(Base):
     """
     Class with id and name attributes of each state
     """
